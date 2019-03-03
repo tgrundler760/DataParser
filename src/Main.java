@@ -1,5 +1,8 @@
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println(Utils.readFileAsString("data\\Education.csv"));
+        String data = Utils.readFileAsString("data/2016_Presidential_Results.csv");
+        ArrayList<ElectionResult> results = Utils.parse2016ElectionResults(data);
     }
 }
