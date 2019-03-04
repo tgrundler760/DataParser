@@ -31,8 +31,8 @@ public class Utils {
             boolean inQuotes = false;
 
             for (char temp : singleLine.toCharArray()) {
-                if (inQuotes) {
-                    cleanLine.append(temp);
+                if (inQuotes && temp != ',') {
+                        cleanLine.append(temp);
                 } else if (temp == '\"') {
                     inQuotes = !inQuotes;
                 } else if (temp != '%') {
