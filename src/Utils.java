@@ -26,12 +26,21 @@ public class Utils {
         String[] lines = data.split(System.getProperty("line.separator"));
         for (int i = 1; i < lines.length; i++) {
             String singleLine = lines[i];
-            String[] splitOnQuotations = singleLine.split("\"");
-            for (int j = 1; j <= 11; j++) {
-                String singleLineSplitOnQuotations = splitOnQuotations[j];
-                String[] splitOnCommas = singleLineSplitOnQuotations.split(",");
-                results.add(new ElectionResult(splitOnCommas));
+
+            StringBuilder cleanLine = new StringBuilder();
+            boolean inQuotes = false;
+
+            for (char temp : singleLine.toCharArray()) {
+                if (inQuotes) {
+                    cleanLine.append(temp);
+                } else if (temp == '\"') {
+                    inQuotes = !inQuotes;
+                } else if (temp != '%') {
+                    cleanLine.append(temp);
+                }
             }
+
+            results.add(new ElectionResult(cleanLine.toString().split(",")));
         }
 
         return results;
