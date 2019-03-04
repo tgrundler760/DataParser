@@ -93,15 +93,15 @@ public class ElectionResult {
 
     public ElectionResult(String[] singleLineOfData) {
         double votes_dem = Double.parseDouble(singleLineOfData[0]);
-        double votes_gop = Double.parseDouble(singleLineOfData[0]);
-        double total_votes = Double.parseDouble(singleLineOfData[0]);
-        double per_dem = Double.parseDouble(singleLineOfData[0]);
-        double per_gop = Double.parseDouble(singleLineOfData[0]);
-        double diff = Double.parseDouble(singleLineOfData[0]);
-        double per_point_diff = Double.parseDouble(singleLineOfData[0].replace("%", ""));
-        String state_abbr = singleLineOfData[0];
-        String county_name = singleLineOfData[0];
-        int combined_fips = Integer.parseInt(singleLineOfData[0]);
+        double votes_gop = Double.parseDouble(singleLineOfData[1]);
+        double total_votes = Double.parseDouble(singleLineOfData[2]);
+        double per_dem = Double.parseDouble(singleLineOfData[3]);
+        double per_gop = Double.parseDouble(singleLineOfData[4]);
+        double diff = Double.parseDouble(singleLineOfData[5]);
+        double per_point_diff = Double.parseDouble(singleLineOfData[6]);
+        String state_abbr = singleLineOfData[7];
+        String county_name = singleLineOfData[8];
+        int combined_fips = Integer.parseInt(singleLineOfData[9]);
     }
 
     public String toString() {
