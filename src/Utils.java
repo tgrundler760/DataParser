@@ -115,7 +115,53 @@ public class Utils {
 
         }
 
-        
+        lines = educationData.split(System.getProperty("line.separator"));
+        for (int i = 6; i < lines.length; i++) {
+
+            String singleLine = lines[i];
+            StringBuilder cleanLine = new StringBuilder();
+
+            boolean inQuotes = false;
+
+            for (char temp : singleLine.toCharArray()) {
+                if (inQuotes && temp != ',') {
+                    cleanLine.append(temp);
+                } else if (temp == '\"') {
+                    inQuotes = !inQuotes;
+                } else if (temp != '%') {
+                    cleanLine.append(temp);
+                }
+            }
+
+            String[] parsedLine = cleanLine.toString().split(",");
+
+            //TODO: add code to add Education2016 to county from each line
+
+        }
+
+        lines = unemploymentData.split(System.getProperty("line.separator"));
+        for (int i = 9; i < lines.length; i++) {
+
+            String singleLine = lines[i];
+            StringBuilder cleanLine = new StringBuilder();
+
+            boolean inQuotes = false;
+
+            for (char temp : singleLine.toCharArray()) {
+                if (inQuotes && temp != ',') {
+                    cleanLine.append(temp);
+                } else if (temp == '\"') {
+                    inQuotes = !inQuotes;
+                } else if (temp != '%') {
+                    cleanLine.append(temp);
+                }
+            }
+
+            String[] parsedLine = cleanLine.toString().split(",");
+
+            //TODO: add code to add Employment2016 to county from each line
+
+        }
 
         return results;
     }
