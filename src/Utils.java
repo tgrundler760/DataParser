@@ -45,4 +45,10 @@ public class Utils {
 
         return results;
     }
+
+    public static DataManager parse2016Data(String data){
+    DataManager results = new DataManager();
+
+    return results;
+    }
 }
