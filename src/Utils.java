@@ -49,7 +49,7 @@ public class Utils {
 
     public static DataManager parse2016Data(String resultsData, String educationData, String unemploymentData) {
         DataManager results = new DataManager();
-        results.setStates(new ArrayList<State>());
+        results.setStates(new ArrayList<>());
 
         String[] lines = resultsData.split(System.getProperty("line.separator"));
         for (int i = 1; i < lines.length; i++) {
@@ -73,7 +73,7 @@ public class Utils {
 
             for (int j = 0; j < results.getStates().size(); i++) {
                 if (results.getStates().get(j).getName().equals(parsedLine[7])) {
-                    Boolean countyFound = false;
+                    boolean countyFound = false;
                     for (int k = 0; k < results.getStates().get(j).getCounties().size(); k++) {
                         if (results.getStates().get(j).getCounties().get(k).getName().equals(parsedLine[8])) {
                             countyFound = true;
@@ -123,12 +123,13 @@ public class Utils {
 
             boolean inQuotes = false;
 
-            for (char temp : singleLine.toCharArray()) {
+            for (int j = 0; i < singleLine.toCharArray().length; i++) {
+                char temp = singleLine.toCharArray()[j];
                 if (inQuotes && temp != ',') {
                     cleanLine.append(temp);
                 } else if (temp == '\"') {
                     inQuotes = !inQuotes;
-                } else if (temp != '%') {
+                } else if (temp != '%' && !(temp == ',' && temp == singleLine.toCharArray()[j + 1])) {
                     cleanLine.append(temp);
                 }
             }
@@ -147,17 +148,19 @@ public class Utils {
 
             boolean inQuotes = false;
 
-            for (char temp : singleLine.toCharArray()) {
+            for (int j = 0; i < singleLine.toCharArray().length; i++) {
+                char temp = singleLine.toCharArray()[j];
                 if (inQuotes && temp != ',') {
                     cleanLine.append(temp);
                 } else if (temp == '\"') {
                     inQuotes = !inQuotes;
-                } else if (temp != '%') {
+                } else if (temp != '%' && !(temp == ',' && temp == singleLine.toCharArray()[j + 1])) {
                     cleanLine.append(temp);
                 }
             }
 
             String[] parsedLine = cleanLine.toString().split(",");
+            parsedLine[1] = parsedLine[1].toUpperCase();
 
             //TODO: add code to add Employment2016 to county from each line
 
