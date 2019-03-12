@@ -7,6 +7,5 @@ public class Main {
         String unemploymentData = Utils.readFileAsString("data/Unemployment.csv");
         DataManager results = Utils.parse2016Data(resultsData, educationData, unemploymentData);
         if (results.getStates().size() > 48) System.out.println("it worked I think");
-        //ArrayList<ElectionResult> results = Utils.parse2016ElectionResults(data);
     }
 }
