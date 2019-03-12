@@ -21,32 +21,6 @@ public class Utils {
         return output.toString();
     }
 
-//    public static ArrayList<ElectionResult> parse2016ElectionResults(String data) {
-//        ArrayList<ElectionResult> results = new ArrayList<ElectionResult>();
-//
-//        String[] lines = data.split(System.getProperty("line.separator"));
-//        for (int i = 1; i < lines.length; i++) {
-//            String singleLine = lines[i];
-//
-//            StringBuilder cleanLine = new StringBuilder();
-//            boolean inQuotes = false;
-//
-//            for (char temp : singleLine.toCharArray()) {
-//                if (inQuotes && temp != ',') {
-//                    cleanLine.append(temp);
-//                } else if (temp == '\"') {
-//                    inQuotes = !inQuotes;
-//                } else if (temp != '%') {
-//                    cleanLine.append(temp);
-//                }
-//            }
-//
-//            results.add(new ElectionResult(cleanLine.toString().split(",")));
-//        }
-//
-//        return results;
-//    }
-
     public static DataManager parse2016Data(String resultsData, String educationData, String unemploymentData) {
         DataManager results = new DataManager();
         results.setStates(new ArrayList<>());
@@ -136,8 +110,52 @@ public class Utils {
 
             String[] parsedLine = cleanLine.toString().split(",");
 
-            //TODO: add code to add Education2016 to county from each line
+            for (int j = 0; j < results.getStates().size(); i++) {
+                if (results.getStates().get(j).getName().equals(parsedLine[7])) {
+                    boolean countyFound = false;
+                    for (int k = 0; k < results.getStates().get(j).getCounties().size(); k++) {
+                        if (results.getStates().get(j).getCounties().get(k).getName().equals(parsedLine[8])) {
+                            countyFound = true;
+                            results.getStates().get(j).getCounties().get(k).getEduc2016().setNoHighSchool(Double.parseDouble(parsedLine[7]));
+                            results.getStates().get(j).getCounties().get(k).getEduc2016().setOnlyHighSchool(Double.parseDouble(parsedLine[8]));
+                            results.getStates().get(j).getCounties().get(k).getEduc2016().setSomeCollege(Double.parseDouble(parsedLine[9]));
+                            results.getStates().get(j).getCounties().get(k).getEduc2016().setBachlorsOrMore(Double.parseDouble(parsedLine[10]));
+                        }
+                    }
+                    if (!countyFound) {
+                        County county = new County();
+                        Education2016 educationResults = new Education2016();
+                        educationResults.setNoHighSchool(Double.parseDouble(parsedLine[41]));
+                        educationResults.setOnlyHighSchool(Double.parseDouble(parsedLine[42]));
+                        educationResults.setSomeCollege(Double.parseDouble(parsedLine[43]));
+                        educationResults.setBachlorsOrMore(Double.parseDouble(parsedLine[44]));
 
+                        county.setEduc2016(educationResults);
+                        county.setName(parsedLine[2]);
+                        county.setFips(Integer.parseInt(parsedLine[0]));
+                        results.getStates().get(j).getCounties().add(county);
+                    }
+                } else {
+                    State state = new State();
+                    state.setName(parsedLine[1]);
+
+                    County county = new County();
+                    Education2016 educationResults = new Education2016();
+                    educationResults.setNoHighSchool(Double.parseDouble(parsedLine[41]));
+                    educationResults.setOnlyHighSchool(Double.parseDouble(parsedLine[42]));
+                    educationResults.setSomeCollege(Double.parseDouble(parsedLine[43]));
+                    educationResults.setBachlorsOrMore(Double.parseDouble(parsedLine[44]));
+
+                    county.setEduc2016(educationResults);
+                    county.setName(parsedLine[2]);
+                    county.setFips(Integer.parseInt(parsedLine[0]));
+                    state.getCounties().add(county);
+
+                    results.getStates().add(state);
+                }
+            }
+
+            //need noHighSchool, onlyHighSchool, someCollege, bachelorsOrMore
         }
 
         lines = unemploymentData.split(System.getProperty("line.separator"));
@@ -162,7 +180,52 @@ public class Utils {
             String[] parsedLine = cleanLine.toString().split(",");
             parsedLine[1] = parsedLine[1].toUpperCase();
 
-            //TODO: add code to add Employment2016 to county from each line
+
+            for (int j = 0; j < results.getStates().size(); i++) {
+                if (results.getStates().get(j).getName().equals(parsedLine[7])) {
+                    boolean countyFound = false;
+                    for (int k = 0; k < results.getStates().get(j).getCounties().size(); k++) {
+                        if (results.getStates().get(j).getCounties().get(k).getName().equals(parsedLine[8])) {
+                            countyFound = true;
+                            results.getStates().get(j).getCounties().get(k).getEmploy2016().setEmployedLaborForce(Integer.parseInt(parsedLine[42]));
+                            results.getStates().get(j).getCounties().get(k).getEmploy2016().setTotalLaborForce(Integer.parseInt(parsedLine[41]));
+                            results.getStates().get(j).getCounties().get(k).getEmploy2016().setUnemployedLaborForce(Integer.parseInt(parsedLine[43]));
+                            results.getStates().get(j).getCounties().get(k).getEmploy2016().setUnemployedPercent(Integer.parseInt(parsedLine[44]));
+                        }
+                    }
+                    if (!countyFound) {
+                        County county = new County();
+                        Employment2016 employmentResults = new Employment2016();
+                        employmentResults.setEmployedLaborForce(Integer.parseInt(parsedLine[41]));
+                        employmentResults.setTotalLaborForce(Integer.parseInt(parsedLine[42]));
+                        employmentResults.setUnemployedLaborForce(Integer.parseInt(parsedLine[43]));
+                        employmentResults.setUnemployedPercent(Double.parseDouble(parsedLine[44]));
+
+                        county.setEmploy2016(employmentResults);
+                        county.setName(parsedLine[2]);
+                        county.setFips(Integer.parseInt(parsedLine[0]));
+                        results.getStates().get(j).getCounties().add(county);
+                    }
+                } else {
+                    State state = new State();
+                    state.setName(parsedLine[1]);
+
+                    County county = new County();
+                    Employment2016 employmentResults = new Employment2016();
+                    employmentResults.setEmployedLaborForce(Integer.parseInt(parsedLine[41]));
+                    employmentResults.setTotalLaborForce(Integer.parseInt(parsedLine[42]));
+                    employmentResults.setUnemployedLaborForce(Integer.parseInt(parsedLine[43]));
+                    employmentResults.setUnemployedPercent(Double.parseDouble(parsedLine[44]));
+
+                    county.setEmploy2016(employmentResults);
+                    county.setName(parsedLine[2]);
+                    county.setFips(Integer.parseInt(parsedLine[0]));
+                    state.getCounties().add(county);
+
+                    results.getStates().add(state);
+                }
+            }
+            //toalLaborForce, employedLaborForce, unemployedLaborForce, unemployedPercent
 
         }
 
